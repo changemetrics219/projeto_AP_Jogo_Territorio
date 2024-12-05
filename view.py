@@ -1,4 +1,4 @@
-#from controller import *
+from controller import *
 def main():
     #aqui vai ficar o código principal
     print("Hello world!")
