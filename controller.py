@@ -1,5 +1,42 @@
 #def(function):
     #aqui vão ficar as funçoes
+
+def verificar_jogador(matriz, nome):
+    for jogador in matriz:
+        if nome == jogador ["Nome"]:
+            return True
+    return False
+    
+
+
+
+
+
+def registar_jogador(matriz, nome):
+    if verificar_jogador(matriz, nome) == False:
+        j = {"Nome": nome, "Pontuação": 0}
+        matriz.append(j)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def criar_tabuleiro():
     lins = int(input("Insira o num de linhas: "))
     cols = int(input("Insira o num de colunas: "))
