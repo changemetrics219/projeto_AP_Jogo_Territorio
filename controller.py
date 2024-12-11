@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 #def(function):
     #aqui vão ficar as funçoes
 
@@ -63,3 +64,16 @@ def criar_tabuleiro():
     #une as listas sem nenhum espaco para mostrar na tela
     for line in table:
         print(''.join(line))
+=======
+#aqui vão ficar as funçoes
+def registar_jogador(matriz, nome):
+    if verificar_jogador(matriz,nome) == False:
+        j = {"Nome": nome, "Pontuação": 0}
+        matriz.append(j)
+
+def verificar_jogador(matriz, nome):
+    for jogador in matriz:
+        if nome == jogador["Nome"]:
+            return True
+    return False   
+>>>>>>> Stashed changes
