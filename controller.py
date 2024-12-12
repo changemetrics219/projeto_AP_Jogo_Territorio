@@ -18,7 +18,9 @@ def registar_jogador(matriz, nome):
         j = {"Nome": nome, "Pontuação": 0}
         matriz.append(j)
 
-
+def visualizar_pontuacao(matriz):
+    for jogador in matriz:
+        print(f"{jogador['Nome']}: {jogador['Pontuação']}")
 
 
 
