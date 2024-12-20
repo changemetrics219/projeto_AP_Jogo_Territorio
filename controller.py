@@ -8,7 +8,43 @@ def verificar_jogador(matriz, nome):
             return True
     return False
     
+def num_jogadores(jogadores):
+    # for j in jogadores:
+         #if len(jogadores) == 2:
 
+    for j in len(jogadores):
+        if j == 2:
+            nome_1 = input("Introduza o nome do jogador 1: ").upper
+            nome_2 = input("Introduza o nome do jogador 2: ").upper
+            if verificar_jogador(jogadores, nome_1) and verificar_jogador(jogadores, nome_2):
+                print(f"\nJogadores: {jogadores} \n {nome_1} vs {nome_2}")
+            else:
+                print(f"\n Jogadores inválidos!\n Os jogadores {nome_1} ou {nome_2} não estão registados.")
+                break
+                    
+        elif j == 3:
+            nome_1 = input("Introduza o nome do jogador 1: ").upper
+            nome_2 = input("Introduza o nome do jogador 2: ").upper
+            nome_3 = input("Introduza o nome do jogador 3: ").upper
+            if verificar_jogador(jogadores, nome_1) and verificar_jogador(jogadores, nome_2) and verificar_jogador(jogadores, nome_3):
+                print(f"\nJogadores: {jogadores} \n {nome_1} vs {nome_2} vs {nome_3} ")
+            else:
+                print(f"\n Jogadores inválidos!\n Os jogadores {nome_1} ou {nome_2} ou {nome_3} não estão registados.")
+                break
+
+        elif j == 4:
+            nome_1 = input("Introduza o nome do jogador 1: ").upper
+            nome_2 = input("Introduza o nome do jogador 2: ").upper
+            nome_3 = input("Introduza o nome do jogador 3: ").upper
+            nome_4 = input("Introduza o nome do jogador 4: ").upper
+            if verificar_jogador(jogadores, nome_1) and verificar_jogador(jogadores, nome_2) and verificar_jogador(jogadores, nome_3) and verificar_jogador(jogadores, nome_4):
+                print(f"\nJogadores: {jogadores} \n {nome_1} vs {nome_2} vs {nome_3} vs {nome_4} ")
+            else:
+                print(f"\n Jogadores inválidos!\n Os jogadores {nome_1} ou {nome_2} ou {nome_3} ou {nome_4} não estão registados.")
+                break
+        else:
+            print("Introduziu um número de jogadores inválido.")
+            break
 
 
 
@@ -23,6 +59,8 @@ def visualizar_pontuacao(matriz):
         print(f"{jogador['Nome']}: {jogador['Pontuação']}")
 
 
+def adicionar_bonus(matriz, table):
+    aleatorio = random.randint(0, len(table) - 1)
 
 
 
