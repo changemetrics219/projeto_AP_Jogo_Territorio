@@ -1,14 +1,68 @@
-<<<<<<< Updated upstream
 #def(function):
     #aqui vão ficar as funçoes
+import random
+import json
 
+def registar_jogador(matriz, nome):
+    if verificar_jogador(matriz, nome) == False:
+        j = {"Nome": nome, "Pontuação":0}
+        matriz.append(j)
 def verificar_jogador(matriz, nome):
     for jogador in matriz:
-        if nome == jogador ["Nome"]:
-            return True
+         if nome == jogador["Nome"]:
+             return True
     return False
-    
-def num_jogadores(jogadores):
+       
+def verificar_numero_jogadores(jogadores):
+    if len(jogadores) >= 2:
+        return True
+    else:
+        return False
+
+def visualizar_pontuacao(matriz):
+    for jogador in matriz:
+        print(f"{jogador['Nome']}: {jogador['Pontuação']}")
+
+
+def adicionar_bonus(matriz, tabuleiro): # isto não esta feito
+    aleatorio = random.randint(0, len(tabuleiro) - 1)
+
+import os
+def criar_tabuleiro():
+    cols = int(input("Insira o tamanho do tabuleiro: "))
+    os.system('cls')
+    lins = cols
+    tabuleiro = []
+    for i in range(lins):
+        tabuleiro.append(list('🔳'*cols))
+    for line in tabuleiro:
+       print(''.join(line))
+    while True:
+        lin_alterar = int(input("Qual linha deseja alterar?: "))
+        col_alterar = int(input("Qual coluna deseja alterar?: "))
+        lin_alterar -= 1   #apagar caso se queira começar com coordenadas 0,0 
+        col_alterar -= 1
+        
+        var = int(input("qual peça?"))
+        match var:
+            case 1:
+                vlr_novo = '🟦'
+            case 2:
+                vlr_novo = '🟩'
+            case 3:
+                vlr_novo = '🟨'
+            case 4:
+                vlr_novo = '🟥'
+        os.system('cls')
+        tabuleiro[lin_alterar][col_alterar] = vlr_novo
+        for line in tabuleiro:
+            print(''.join(line)) 
+                 
+def atualizar_tabuleiro(linha, coluna, jogada, tabuleiro): # proxima coisa a mudar----------------------------
+    if tabuleiro[linha][coluna] == '_': tabuleiro[linha][coluna] = jogada
+    else: print("Posição já ocupada!")
+"""
+def num_jogadores(jogadores):# transformar isto varias funçoes
     # for j in jogadores:
          #if len(jogadores) == 2:
 
@@ -45,75 +99,15 @@ def num_jogadores(jogadores):
         else:
             print("Introduziu um número de jogadores inválido.")
             break
+"""
+def ler_ficheiro_json(nome_ficheiro):
+    with open(nome_ficheiro) as f:
+        data = json.load(f)
+    return data 
 
-
-
-
-def registar_jogador(matriz, nome):
-    if verificar_jogador(matriz, nome) == False:
-        j = {"Nome": nome, "Pontuação": 0}
-        matriz.append(j)
-
-def visualizar_pontuacao(matriz):
-    for jogador in matriz:
-        print(f"{jogador['Nome']}: {jogador['Pontuação']}")
-
-
-def adicionar_bonus(matriz, table):
-    aleatorio = random.randint(0, len(table) - 1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def criar_tabuleiro():
-    lins = int(input("Insira o num de linhas: "))
-    cols = int(input("Insira o num de colunas: "))
-
-    #cria uma lista com o "X" aparecendo tantas vezes quando o nºde colunas
-    table = []
-    for i in range(lins):
-        table.append(list('X'*cols))
-
-    #une as listas sem nenhum espaco para mostrar na tela
-    for line in table:
-        print(''.join(line))
-
-    #pergunta qual linha e coluna deseja alterar
-    lin_alterar = int(input("Qual linha deseja alterar?: "))
-    col_alterar = int(input("Qual coluna deseja alterar?: "))
-
-    #qual o valor novo a ser inserido
-    vlr_novo = 'P'
-
-    #altera o item da posicao escolhida para o vlr_novo
-    table[lin_alterar - 1][col_alterar - 1] = vlr_novo
-
-    #une as listas sem nenhum espaco para mostrar na tela
-    for line in table:
-        print(''.join(line))
-=======
-#aqui vão ficar as funçoes
-def registar_jogador(matriz, nome):
-    if verificar_jogador(matriz,nome) == False:
-        j = {"Nome": nome, "Pontuação": 0}
-        matriz.append(j)
-
-def verificar_jogador(matriz, nome):
-    for jogador in matriz:
-        if nome == jogador["Nome"]:
-            return True
-    return False   
->>>>>>> Stashed changes
+def escrever_ficheiro_json(nome_ficheiro, d):
+    json_string = json.dumps(d)
+    json_file = open(nome_ficheiro, "w")
+    json_file.write(json_string)
+    json_file.close()
+    #---------------------------------------------------------------------------------------------------------        

@@ -1,66 +1,100 @@
 from controller import *
-
+import os
 def main():
 
-    jogadores = [ ]
-
+    jogadores = ler_ficheiro_json("jogadores.json")
+    #tabuleiro = criar_tabuleiro()  
     while True:
         opcao = int(input("""
                         **** MENU - JOGO TERRITÓRIO ****
-                      1-> REGISTAR JOGADOR
-                      2-> INICIAR JOGO
-                      3-> VISUALIZAR PONTUAÇÃO
-                      4-> SAIR
-                      QUAL A OPÇÃO QUE QUER ESCOLHER? """))
-        
-        match opcao:
-            
-            case 1:
-                n_jogadores = int(input("Insira o número de jogadores: \n"))
-                if (n_jogadores >= 2 and n_jogadores <= 4):
-                    nome = input("Introduza o seu nome: ").upper
-                    registar_jogador(jogadores, nome)
-                    print(f"{jogadores} registado com sucesso.")
-        
-                else:
-                    print("\nNúmero inválido de jogadores\n")
+                      1 - REGISTAR JOGADOR
+                      2 - INICIAR JOGO
+                      3 - VISUALIZAR PONTUAÇÃO
+                      4 - Ler
+                      5 - Gravar
+                      6 - Instruções
+                      0 - Sair
+                      Escolha uma opção: """))
+        if opcao == '0':
+            print("Bye 👋")
+            break
+        else:
+                match opcao: 
+                    case 1: #registar jogador
+                        nome = input("insira o nome do jogador:\n")
+                        if registar_jogador(jogadores, nome) == True: 
+                            print(f"Jogador já registado\n")
+                        else:
+                            print(f"Jogador adicionado com sucesso: {jogadores}\n")
+                        
+                        n_jogadores = verificar_numero_jogadores(jogadores)
+                        if n_jogadores == True:
+                            print(f"Já está pronto para começar o jogo\n")
+                        else:
+                            print(f"Numero de jogadores insuficiente: {jogadores}\n")
+                    
+                    case 2: # iniciar jogo que nao funciona
+                        os.system('cls')
+                        ij_n_jogador = int(input("insira quantas pessoas vão jogar:"))
+                        lista_jogadores = []
+                        try: 
+                            if ij_n_jogador > 4 or ij_n_jogador < 2:
+                                print("Numero de jogadores insuficiente\n Tente novamente")
+                        except:
+                            for i in range(0, ij_n_jogador):
+                                nome = input("insira o nome do jogador:\n")
+                                try:
+                                    if verificar_jogador(jogadores, nome) == True:
+                                        if i < ij_n_jogador:
+                                            print("nome válido insira o próximo nome\n")
+                                        else:
+                                            print("Jogadores inseridos com sucesso\n")
+                                            criar_tabuleiro()   #aqui vai começar o jogo
+                                except:
+                                        print("jogador não registado\n Tente novamente\n")    
+                        
+                        
+                        for i in range(0, len(jogadores)): # escolha de cores de cada jogador
+                            cores=int(input("Escolha uma cor:\n1 - azul\n2 - vermelho\n3 - Amarelo\n4 - verde\n"))
+                            i=1+1
+                            match cores:
+                                case 1:
+                                    print("azul\n")   
+                                    #definir que o jogador i é azul
+                                case 2:
+                                    print("vermelho\n")
+                                    #definir que o jogador i é vermelho
+                                case 3:
+                                    print("amarelo\n")
+                                    #definir que o jogador i é amarelo
+                                case 4:
+                                    print("verde\n")
+                                    #definir que o jogador i é verde
+                                case _:
+                                    print("opçao inválida\n")
+                    case 3: # Visualizar pontuação
+                        os.system('cls')
+                        print("**** PONTUAÇÕES ****")
+                        for j in jogadores:
+                            print(f"Jogador: {j["Nome"]}, pontuação: {j["Pontuação"]}")
+                            visualizar_pontuacao(jogadores)
+                    case 4: # ler ficheiro
+                        os.system('cls')
+                        jogadores = ler_ficheiro_json("jogadores.json")
+                        print(jogadores)  
+                    case 5: # gravar ficheiro
+                        os.system('cls')
+                        print("Ficheiro gravado com sucesso")
+                        escrever_ficheiro_json("jogadores.json", jogadores)   
+                    case 6: # instruções 
+                        print("instruções")
+                    case 0: #sair
+                        print("Bye 👋")
+                        break
+                    case _:
+                        os.system('cls')
+                        print("Opção inválida\n Tente novamente!")        
 
-            
-            case 2:
-                num_jogadores(jogadores)
+                    
 
-                # Aqui fica o código da criação do tabuleiro - função criar_tabuleiro()
-                
-                cores = ["Vermelho", "Verde", "Amarelo", "Azul"]
-                print("\nCores Disponíveis: \n")
-                for c in cores:
-                    print(c)
-
-                # Lista para guardar as cores escolhidas pelos jogadores
-                cores_jogadores = [ ]
-                
-
-
-                # Adiciona a cor escolhida à lista associada ao jogador
-                escolha_cor = input("\nEscolha uma cor: ").upper
-                if escolha_cor in cores:
-                    cores_jogadores.append((nome_1, escolha_cor))
-                    print(f"\n{escolha_cor} escolhida com sucesso para {nome_1}!")
-                else:
-                    print("\nCor inválida!")
-
-
-                
-
-            case 3:
-                visualizar_pontuacao(jogadores)
-
-            case 4:
-                print("\nObrigado por jogar! Até à próxima!\n")
-                print(f"\nPontuações finais:\n{jogadores}")
-                break
-
-            case _:
-                print("\nOpção inválida!\n")
-
-                
+                        
