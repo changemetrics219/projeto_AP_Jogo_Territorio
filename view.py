@@ -96,5 +96,3 @@ def main():
                         print("Opção inválida\n Tente novamente!")        
 
                     
-
-                        
