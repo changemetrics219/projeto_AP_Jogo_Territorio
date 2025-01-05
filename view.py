@@ -12,7 +12,8 @@ def main():
                       3 - VISUALIZAR PONTUAÇÃO
                       4 - Ler
                       5 - Gravar
-                      #adicionar remover jogador
+                      X - adicionar remover jogador
+                      X - Definições de Bônus
                       6 - Instruções
                       0 - Sair
                       Escolha uma opção: """))
