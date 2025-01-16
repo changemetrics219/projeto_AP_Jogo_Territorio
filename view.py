@@ -78,15 +78,25 @@ def main():
                                 elif i == ij_n_jogador:
                                     print("Jogadores inseridos com sucesso\n")       
                                 else:
-                                    print("jogador não registado\n Tente novamente\n")    
-                        lista_jogadores = associar_peca_jogador(lista_jogadores)
-                        tabuleiro = criar_tabuleiro()
-                        inicio_jogo(tabuleiro, lista_jogadores, j, ij_n_jogador, contador)
+                                    print("jogador não registado\n Tente novamente\n")
+                        if ij_n_jogador == 4:
+                            mod = input("Quer modo de duplas?\n S/N").upper   
+                            if mod == "S":
+                                #modo duplas 
+                                print("modo duplas")
+                            else:
+                                lista_jogadores = associar_peca_jogador(lista_jogadores)
+                                tabuleiro = criar_tabuleiro()
+                                inicio_jogo(tabuleiro, lista_jogadores, j, ij_n_jogador, contador)
+                        else:
+                            lista_jogadores = associar_peca_jogador(lista_jogadores)
+                            tabuleiro = criar_tabuleiro()
+                            inicio_jogo(tabuleiro, lista_jogadores, j, ij_n_jogador, contador)
                 case 3: # Visualizar pontuação
                     os.system('cls')
                     print("**** PONTUAÇÕES ****")
                     visualizar_pontuacao(jogadores)
-                    time.sleep(4)
+                    time.sleep(input("Pressione uma tecla para continuar..."))
                 case 4: # ler ficheiro
                     os.system('cls')
                     jogadores = ler_ficheiro_json("jogadores.json")
@@ -94,7 +104,7 @@ def main():
                 case 5: # gravar ficheiro
                     os.system('cls')
                     print("Ficheiro gravado com sucesso")
-                    escrever_ficheiro_json("jogadores.json", jogadores)   
+                    escrever_ficheiro_json("jogadores.json", jogadores)  
                             
                 case 6: # instruções 
                     print("instruções")
