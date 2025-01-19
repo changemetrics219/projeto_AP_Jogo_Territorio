@@ -1,0 +1,59 @@
+import os
+import time
+import json
+
+def jogadas(tabuleiro, lista_jogadores, jogador_atual, contador):
+    """Executa uma jogada e verifica adjacências após a primeira jogada de cada jogador."""
+    jogador = lista_jogadores[jogador_atual]
+    print(f"\nÉ a vez de {jogador['Nome']} {jogador['Peça']}")
+    print(jogador)
+
+    while True:
+        try:
+            if jogador["NUMERO_PEÇAS"] < 1:
+                print(f"{jogador['Nome']} não tem mais peças. Fim de jogo para este jogador.")
+                return jogador_atual, contador, True
+
+            if contador < len(lista_jogadores):  # Primeira jogada de cada jogador
+                lin_alterar = len(tabuleiro)//2
+                col_alterar = len(tabuleiro[0])//2
+                if tabuleiro[lin_alterar][col_alterar] != '':
+                    print("Posição central ocupada. Escolha outra posição.")
+                    continue
+            else:  # Jogadas seguintes
+                lin_alterar = int(input("Qual linha deseja alterar? ")) - 1
+                col_alterar = int(input("Qual coluna deseja alterar? ")) - 1
+
+                if not (0 <= lin_alterar < len(tabuleiro)) or not (0 <= col_alterar < len(tabuleiro[0])):
+                    print("Fora dos limites do tabuleiro. Tente novamente.")
+                    continue
+                if tabuleiro[lin_alterar][col_alterar] != '':
+                    print("Posição ocupada! Escolha outra.")
+                    continue
+
+            break
+        except ValueError:
+            print("Entrada inválida. Insira apenas números.")
+
+    tabuleiro[lin_alterar][col_alterar] = jogador["Peça"]
+    jogador["NUMERO_PEÇAS"] -= 1
+    print(jogador["NUMERO_PEÇAS"])
+    time.sleep(1)
+    contador += 1
+    imprimir_tabuleiro(tabuleiro)
+
+    if contador >= len(lista_jogadores):  # Verifica adjacências APÓS a primeira jogada de cada jogador
+        vizinhos = obter_vizinhos_hvd(tabuleiro, lin_alterar, col_alterar)
+        if vizinhos:
+            print("Vizinhos encontrados:")
+            for lin, col in vizinhos:
+                print(f"Linha: {lin + 1}, Coluna: {col + 1}, Peça: {tabuleiro[lin][col]}")
+            # Aqui você implementaria a lógica com base nas adjacências
+            # Exemplo: Se um vizinho for da mesma cor, ganha um ponto extra.
+            for lin, col in vizinhos:
+                if tabuleiro[lin][col] == jogador["Peça"]:
+                    print("Bónus por adjacência!")
+
+    return (jogador_atual + 1) % len(lista_jogadores), contador, False
+
+
