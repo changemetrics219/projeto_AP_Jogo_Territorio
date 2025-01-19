@@ -116,7 +116,7 @@ def main():
 
                             if jogador["NUMERO_PEÇAS"] < 1 :
                                 print(f"{jogador['Nome']} não tem mais peças. Fim de jogo para este jogador.") 
-                            
+
                             if verificar_fim_de_jogo(lista_jogadores, tabuleiro, j, vizinhos) == True:  #RESOLVER COM JOOGADAS
                                 vencedor = verificar_vencedor(lista_jogadores)
                                 print("Fim do jogo!")

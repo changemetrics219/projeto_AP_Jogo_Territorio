@@ -45,10 +45,8 @@ def adicionar_bonus(tabuleiro): # isto não esta feito
             coordenadasbonus.append([linha_aleatoria,coluna_aleatoria])
 
         return coordenadasbonus
-
 def associar_peca_jogador(jogador,p):
     cores = ["azul", "verde", "amarelo", "vermelho"]
-    
     if p in cores:
         for i in range(len(jogador)):
             if p == "azul":
@@ -152,7 +150,7 @@ def jogadas(tabuleiro, lista_jogadores, j, ij_n_jogador, contador, coordenadasbo
 
         print("Jogada válida") #ir para a view
         vizinhos = obter_vizinhos(tabuleiro, lista_jogadores, j, lin_alterar, col_alterar, vizinhos) # Obtém os vizinhos da última jogada
-    
+
     for coordenadas in coordenadasbonus:
         if coordenadas[0] == lin_alterar and coordenadas[1] == col_alterar:
             jogador['Pontuação'] += 9
