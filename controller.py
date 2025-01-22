@@ -1,119 +1,197 @@
-<<<<<<< Updated upstream
-#def(function):
-    #aqui vão ficar as funçoes
-
-def verificar_jogador(matriz, nome):
-    for jogador in matriz:
-        if nome == jogador ["Nome"]:
-            return True
-    return False
-    
-def num_jogadores(jogadores):
-    # for j in jogadores:
-         #if len(jogadores) == 2:
-
-    for j in len(jogadores):
-        if j == 2:
-            nome_1 = input("Introduza o nome do jogador 1: ").upper
-            nome_2 = input("Introduza o nome do jogador 2: ").upper
-            if verificar_jogador(jogadores, nome_1) and verificar_jogador(jogadores, nome_2):
-                print(f"\nJogadores: {jogadores} \n {nome_1} vs {nome_2}")
-            else:
-                print(f"\n Jogadores inválidos!\n Os jogadores {nome_1} ou {nome_2} não estão registados.")
-                break
-                    
-        elif j == 3:
-            nome_1 = input("Introduza o nome do jogador 1: ").upper
-            nome_2 = input("Introduza o nome do jogador 2: ").upper
-            nome_3 = input("Introduza o nome do jogador 3: ").upper
-            if verificar_jogador(jogadores, nome_1) and verificar_jogador(jogadores, nome_2) and verificar_jogador(jogadores, nome_3):
-                print(f"\nJogadores: {jogadores} \n {nome_1} vs {nome_2} vs {nome_3} ")
-            else:
-                print(f"\n Jogadores inválidos!\n Os jogadores {nome_1} ou {nome_2} ou {nome_3} não estão registados.")
-                break
-
-        elif j == 4:
-            nome_1 = input("Introduza o nome do jogador 1: ").upper
-            nome_2 = input("Introduza o nome do jogador 2: ").upper
-            nome_3 = input("Introduza o nome do jogador 3: ").upper
-            nome_4 = input("Introduza o nome do jogador 4: ").upper
-            if verificar_jogador(jogadores, nome_1) and verificar_jogador(jogadores, nome_2) and verificar_jogador(jogadores, nome_3) and verificar_jogador(jogadores, nome_4):
-                print(f"\nJogadores: {jogadores} \n {nome_1} vs {nome_2} vs {nome_3} vs {nome_4} ")
-            else:
-                print(f"\n Jogadores inválidos!\n Os jogadores {nome_1} ou {nome_2} ou {nome_3} ou {nome_4} não estão registados.")
-                break
-        else:
-            print("Introduziu um número de jogadores inválido.")
-            break
-
-
-
+from random import randint
+import json
+import time
+import os
 
 def registar_jogador(matriz, nome):
     if verificar_jogador(matriz, nome) == False:
-        j = {"Nome": nome, "Pontuação": 0}
+        j = {"Nome": nome, "Pontuação":0}
         matriz.append(j)
-
-def visualizar_pontuacao(matriz):
-    for jogador in matriz:
-        print(f"{jogador['Nome']}: {jogador['Pontuação']}")
-
-
-def adicionar_bonus(matriz, table):
-    aleatorio = random.randint(0, len(table) - 1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def criar_tabuleiro():
-    lins = int(input("Insira o num de linhas: "))
-    cols = int(input("Insira o num de colunas: "))
-
-    #cria uma lista com o "X" aparecendo tantas vezes quando o nºde colunas
-    table = []
-    for i in range(lins):
-        table.append(list('X'*cols))
-
-    #une as listas sem nenhum espaco para mostrar na tela
-    for line in table:
-        print(''.join(line))
-
-    #pergunta qual linha e coluna deseja alterar
-    lin_alterar = int(input("Qual linha deseja alterar?: "))
-    col_alterar = int(input("Qual coluna deseja alterar?: "))
-
-    #qual o valor novo a ser inserido
-    vlr_novo = 'P'
-
-    #altera o item da posicao escolhida para o vlr_novo
-    table[lin_alterar - 1][col_alterar - 1] = vlr_novo
-
-    #une as listas sem nenhum espaco para mostrar na tela
-    for line in table:
-        print(''.join(line))
-=======
-#aqui vão ficar as funçoes
-def registar_jogador(matriz, nome):
-    if verificar_jogador(matriz,nome) == False:
-        j = {"Nome": nome, "Pontuação": 0}
-        matriz.append(j)
-
+        escrever_ficheiro_json("jogadores.json", matriz)
+    else:
+        return True
 def verificar_jogador(matriz, nome):
     for jogador in matriz:
-        if nome == jogador["Nome"]:
+         if nome == jogador["Nome"]:
+             return True
+    return False
+       
+def verificar_numero_jogadores(jogadores):
+    if len(jogadores) >= 2:
+        return True
+    else:
+        return False
+    
+import math
+def adicionar_bonus(tabuleiro): # isto não esta feito
+    
+        linha = len(tabuleiro)
+        coluna = len(tabuleiro[0])
+
+        raiz = math.sqrt(coluna)
+
+        if raiz < 2.6:
+            num_bonus = math.floor(raiz)
+        else:
+            num_bonus = math.ceil(raiz)
+
+        coordenadasbonus = []# guardar as coordenadas do bonus 
+
+        for i in range(num_bonus): # adicionar x bonus conforme o tamanho do tabuleiro
+        # Coordenadas aleatorias para o bonus
+            linha_aleatoria = randint(0, linha-1)
+            coluna_aleatoria = randint(0, coluna-1)
+
+            coordenadasbonus.append([linha_aleatoria,coluna_aleatoria])
+
+        return coordenadasbonus
+
+import time
+def obter_vizinhos(tabuleiro, lista_jogadores, j, lin_alterar, col_alterar, vizinhos):
+    vizinhos.clear() 
+    linhas_tabuleiro = len(tabuleiro)
+    colunas_tabuleiro = len(tabuleiro[0]) if linhas_tabuleiro > 0 else 0
+
+    # Verifica se as listas existem e não estão vazias
+    if 'linhas' in lista_jogadores[j] and lista_jogadores[j]['linhas'] and 'colunas' in lista_jogadores[j] and lista_jogadores[j]['colunas']:
+        linha = lista_jogadores[j]['linhas'][-1]
+        coluna = lista_jogadores[j]['colunas'][-1]
+    
+    for d_linha in [-1, 0, 1]:
+        for d_colunas in [-1, 0, 1]:
+            if d_linha == 0 and d_colunas == 0:
+                continue
+            nova_linha, nova_coluna = linha + d_linha, coluna + d_colunas
+            if 0 <= nova_linha < linhas_tabuleiro and 0 <= nova_coluna < colunas_tabuleiro:
+                vizinhos.append((nova_linha, nova_coluna))
+                lista_jogadores[j]['linhas'].append(nova_linha)
+                lista_jogadores[j]['colunas'].append(nova_coluna)
+    return vizinhos  
+
+def jogadas(tabuleiro, lista_jogadores, j, ij_n_jogador, contador, coordenadasbonus, vizinhos,lin_alterar, col_alterar):
+    """Executa uma jogada."""
+    jogador = lista_jogadores[j]  # Simplifica o acesso ao jogador atual
+   
+    if jogador["NUMERO_PEÇAS"] == 0:
+        jogador['Inativo'] = True
+        jogadores_ativos = [jogador for jogador in lista_jogadores if 'Inativo' not in jogador]
+        if not jogadores_ativos:
+            return -1, contador
+        novo_j = (j + 1) % len(lista_jogadores)
+        while 'Inativo' in lista_jogadores[novo_j]:
+            novo_j = (novo_j + 1) % len(lista_jogadores)
+        return novo_j, contador
+       
+    jogador['linhas'].append(lin_alterar)
+    jogador['colunas'].append(col_alterar)
+    tabuleiro[lin_alterar][col_alterar] = jogador["Peça"]
+    jogador["NUMERO_PEÇAS"] -= 1
+          
+
+    if contador > len(lista_jogadores) - 1: #so verifica a adjacencia apartir da segunda jogada
+        adjacente = False
+        for i in range(len(jogador['linhas']) - 1):
+            if abs(jogador['linhas'][i] - lin_alterar) <= 1 and abs(jogador['colunas'][i] - col_alterar) <= 1:
+                adjacente = True
+                break
+
+        if not adjacente:
+            print("Jogada inválida, não está adjacente a nenhuma peça sua!")#ir para a view
+            jogador['linhas'].pop()
+            jogador['colunas'].pop()
+            tabuleiro[lin_alterar][col_alterar] = "🔳" #volta a meter o sitio onde estava a jogar a branco
+            jogador["NUMERO_PEÇAS"] += 1 #volta a adicionar a peça ao jogador
+            return j, contador
+
+        print("Jogada válida") #ir para a view
+        vizinhos = obter_vizinhos(tabuleiro, lista_jogadores, j, lin_alterar, col_alterar, vizinhos) # Obtém os vizinhos da última jogada
+
+    for coordenadas in coordenadasbonus:
+        if coordenadas[0] == lin_alterar and coordenadas[1] == col_alterar:
+            jogador['Pontuação'] += 9
+            
+    print(jogador) #ir para a view
+    time.sleep(1)
+    imprimir_tabuleiro(tabuleiro)
+    contador += 1
+  
+    return j, contador, vizinhos
+
+def criar_tabuleiro(cols):
+    os.system('cls')
+    lins = cols 
+    tabuleiro = []
+    for i in range(lins):
+        tabuleiro.append(list('🔳'*cols))
+    imprimir_tabuleiro(tabuleiro)
+    return tabuleiro
+
+def imprimir_tabuleiro(tabuleiro): # enumera o tabuleiro
+    # números das colunas
+    print("     " + "  ".join(f"{i+1}" for i in range(len(tabuleiro[0]))))
+    # numero das linhas
+    for i, line in enumerate(tabuleiro):
+        print(f"{i + 1:2}" + "".join(line))  
+    
+#isto controla as jogadas no tabuleiro
+
+
+def atualizar_tabuleiro(tabuleiro, lin_alterar, col_alterar, lista_jogadores, j):     
+  
+        lin_alterar -= 0  #apagar caso se queira começar com coordenadas 0,0 
+        col_alterar -= 0
+        tabuleiro[lin_alterar][col_alterar] = lista_jogadores[j]["Peça"]
+        imprimir_tabuleiro(tabuleiro)
+        
+       
+def inicio_jogo(tabuleiro, lista_jogadores, j, ij_n_jogador, contador, coordenadasbonus, lin_alterar, col_alterar):  
+    coordenadasbonus = [] 
+    vizinhos = [] 
+    while True:
+        j, contador, vizinhos = jogadas(tabuleiro, lista_jogadores, j, ij_n_jogador, contador, coordenadasbonus, vizinhos, lin_alterar, col_alterar)
+        if not verificar_fim_de_jogo(lista_jogadores, tabuleiro, j, vizinhos):
+            break
+    return j, contador
+def verificar_fim_de_jogo(lista_jogadores, tabuleiro, j, vizinhos):
+    for linha in tabuleiro:
+        for coluna in linha:
+            if coluna == '🔳': 
+                return False
+    if vizinhos == []:
+        return False
+    for jogador in lista_jogadores:
+        if jogador['Inativo'] == True  and jogador['NUMERO_PEÇAS'] == 0:
+            return False
+        else:
             return True
-    return False   
->>>>>>> Stashed changes
+    
+
+def verificar_vencedor(lista_jogadores):
+    vencedores = []
+    for i in range(len(lista_jogadores)):
+        for p in range(i + 1, len(lista_jogadores)):
+            if ((lista_jogadores[i]["NUMERO_PEÇAS"] > lista_jogadores[p]["NUMERO_PEÇAS"]) or
+                ((lista_jogadores[i]["NUMERO_PEÇAS"] == lista_jogadores[p]["NUMERO_PEÇAS"]) and
+                 (lista_jogadores[i]["Pontuação"] < lista_jogadores[p]["Pontuação"]))):
+                lista_jogadores[i], lista_jogadores[p] = lista_jogadores[p], lista_jogadores[i]
+            elif ((lista_jogadores[i]["NUMERO_PEÇAS"] == lista_jogadores[p]["NUMERO_PEÇAS"]) and
+                   (lista_jogadores[i]["Pontuação"] == lista_jogadores[p]["Pontuação"])):
+                vencedores.append(lista_jogadores[i])
+                vencedores.append(lista_jogadores[p])
+    if len(vencedores) == 0:
+        vencedor = lista_jogadores[0]
+        return vencedor["Nome"], vencedor["Pontuação"]
+    else:
+        return "Empate", vencedores
+    
+       
+
+def ler_ficheiro_json(nome_ficheiro):
+    with open(nome_ficheiro) as f:
+        data = json.load(f)
+    return data 
+def escrever_ficheiro_json(nome_ficheiro, d):
+    json_string = json.dumps(d)
+    json_file = open(nome_ficheiro, "w")
+    json_file.write(json_string)
+    json_file.close()
